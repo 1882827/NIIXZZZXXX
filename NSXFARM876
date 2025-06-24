@@ -9,7 +9,7 @@ local window = library:AddWindow("Nii Farm", {
 local AutoFarm = window:AddTab("Auto Farm")
 
 local antiAFKEnabled = true
-AutoFarm:AddSwitch("Anti-AFK System", function(bool)
+AutoFarm:AddSwitch("Anti AFK", function(bool)
     antiAFKEnabled = bool
     
     if bool then
@@ -23,7 +23,7 @@ AutoFarm:AddSwitch("Anti-AFK System", function(bool)
     end
 end, true)
 
-AutoFarm:AddTextBox("Rebirth Target", function(text)
+AutoFarm:AddTextBox("Objetivo de Rebirth", function(text)
     local newValue = tonumber(text)
     if newValue and newValue > 0 then
         targetRebirthValue = newValue
@@ -45,7 +45,7 @@ end)
 
 local infiniteSwitch
 
-local targetSwitch = AutoFarm:AddSwitch("Auto Rebirth Target", function(bool)
+local targetSwitch = AutoFarm:AddSwitch("Farmar ate o objetivo de rebirth", function(bool)
     _G.targetRebirthActive = bool
     
     if bool then
@@ -77,7 +77,7 @@ local targetSwitch = AutoFarm:AddSwitch("Auto Rebirth Target", function(bool)
     end
 end, "Renacimiento automÃƒÂ¡tico hasta alcanzar el objetivo")
 
-infiniteSwitch = AutoFarm:AddSwitch("Auto Rebirth (Infinite)", function(bool)
+infiniteSwitch = AutoFarm:AddSwitch("Farmar rebirth infinitamente", function(bool)
     _G.infiniteRebirthActive = bool
     
     if bool then
@@ -94,7 +94,7 @@ infiniteSwitch = AutoFarm:AddSwitch("Auto Rebirth (Infinite)", function(bool)
     end
 end, "Renacimiento continuo sin parar")
 
-local sizeSwitch = AutoFarm:AddSwitch("Auto Size 1", function(bool)
+local sizeSwitch = AutoFarm:AddSwitch("Tamanho 1", function(bool)
     _G.autoSizeActive = bool
     
     if bool then
@@ -106,7 +106,7 @@ local sizeSwitch = AutoFarm:AddSwitch("Auto Size 1", function(bool)
     end
 end, "Establece el tamaÃƒÂ±o del personaje a 1 continuamente")
 
-local teleportSwitch = AutoFarm:AddSwitch("Auto Teleport to Muscle King", function(bool)
+local teleportSwitch = AutoFarm:AddSwitch("Teleporte pro Rei", function(bool)
     _G.teleportActive = bool
     
     if bool then
@@ -122,7 +122,7 @@ end, "Teletransporte continuo al Rey MÃƒÂºsculo")
 
 local repToggle = false
 
-AutoFarm:AddSwitch("Auto Farm (Equip Any tool)", function(state)
+AutoFarm:AddSwitch("Farmar com o peso", function(state)
     repToggle = state
     while repToggle do
         local args = { "rep" }
@@ -132,7 +132,7 @@ AutoFarm:AddSwitch("Auto Farm (Equip Any tool)", function(state)
 end)
 
 local weightOn = false
-AutoFarm:AddSwitch("Weight", function(bool)
+AutoFarm:AddSwitch("Equipar Peso Automaticamente", function(bool)
     weightOn = bool
     task.spawn(function()
         while weightOn do
