@@ -23,9 +23,7 @@ AutoFarm:AddSwitch("Anti-AFK System", function(bool)
     end
 end, true)
 
-local rebirthsFolder = farmPlusTab:AddTab("Rebirths")
-
-rebirthsFolder:AddTextBox("Rebirth Target", function(text)
+AutoFarm:AddTextBox("Rebirth Target", function(text)
     local newValue = tonumber(text)
     if newValue and newValue > 0 then
         targetRebirthValue = newValue
@@ -47,7 +45,7 @@ end)
 
 local infiniteSwitch
 
-local targetSwitch = rebirthsFolder:AddSwitch("Auto Rebirth Target", function(bool)
+local targetSwitch = AutoFarm:AddSwitch("Auto Rebirth Target", function(bool)
     _G.targetRebirthActive = bool
     
     if bool then
@@ -79,7 +77,7 @@ local targetSwitch = rebirthsFolder:AddSwitch("Auto Rebirth Target", function(bo
     end
 end, "Renacimiento automÃƒÂ¡tico hasta alcanzar el objetivo")
 
-infiniteSwitch = rebirthsFolder:AddSwitch("Auto Rebirth (Infinite)", function(bool)
+infiniteSwitch = AutoFarm:AddSwitch("Auto Rebirth (Infinite)", function(bool)
     _G.infiniteRebirthActive = bool
     
     if bool then
@@ -96,7 +94,7 @@ infiniteSwitch = rebirthsFolder:AddSwitch("Auto Rebirth (Infinite)", function(bo
     end
 end, "Renacimiento continuo sin parar")
 
-local sizeSwitch = rebirthsFolder:AddSwitch("Auto Size 1", function(bool)
+local sizeSwitch = AutoFarm:AddSwitch("Auto Size 1", function(bool)
     _G.autoSizeActive = bool
     
     if bool then
@@ -108,7 +106,7 @@ local sizeSwitch = rebirthsFolder:AddSwitch("Auto Size 1", function(bool)
     end
 end, "Establece el tamaÃƒÂ±o del personaje a 1 continuamente")
 
-local teleportSwitch = rebirthsFolder:AddSwitch("Auto Teleport to Muscle King", function(bool)
+local teleportSwitch = AutoFarm:AddSwitch("Auto Teleport to Muscle King", function(bool)
     _G.teleportActive = bool
     
     if bool then
@@ -122,7 +120,7 @@ local teleportSwitch = rebirthsFolder:AddSwitch("Auto Teleport to Muscle King", 
     end
 end, "Teletransporte continuo al Rey MÃƒÂºsculo")
 
-local autoEquipToolsFolder = rebirthsFolder:AddSwitch("Auto Weight", function(Value)
+local autoEquipToolsFolder = AutoFarm:AddSwitch("Auto Weight", function(bool)
     _G.AutoWeight = Value
     
     if Value then
