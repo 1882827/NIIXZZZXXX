@@ -120,27 +120,27 @@ local teleportSwitch = AutoFarm:AddSwitch("Auto Teleport to Muscle King", functi
     end
 end, "Teletransporte continuo al Rey MÃƒÂºsculo")
 
-local autoEquipToolsFolder = AutoFarm:AddSwitch("Auto Weight", function(bool)
-    _G.AutoWeight = Value
-    
-    if Value then
-        local weightTool = game.Players.LocalPlayer.Backpack:FindFirstChild("Weight")
-        if weightTool then
-            game.Players.LocalPlayer.Character.Humanoid:EquipTool(weightTool)
-        end
-    else
-        local character = game.Players.LocalPlayer.Character
-        local equipped = character:FindFirstChild("Weight")
-        if equipped then
-            equipped.Parent = game.Players.LocalPlayer.Backpack
-        end
+local repToggle = false
+
+AutoFarm:AddSwitch("Auto Farm (Equip Any tool)", function(state)
+    repToggle = state
+    while repToggle do
+        local args = { "rep" }
+        game:GetService("Players").LocalPlayer:WaitForChild("muscleEvent"):FireServer(unpack(args))
+        task.wait(0.2)
     end
-    
+end)
+
+local weightOn = false
+AutoFarm:AddSwitch("Weight", function(bool)
+    weightOn = bool
     task.spawn(function()
-        while _G.AutoWeight do
-            if not _G.AutoWeight then break end
-            game:GetService("Players").LocalPlayer.muscleEvent:FireServer("rep")
+        while weightOn do
+            local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("Weight")
+            if tool then
+                tool.Parent = game.Players.LocalPlayer.Character
+            end
             task.wait(0.1)
         end
     end)
-end, "Levanta pesas automÃƒÂ¡ticamente")
+end)
