@@ -6,26 +6,22 @@ local window = library:AddWindow("Nii Farm", {
     can_resize = false,
 })
 
-local VirtualUser = game:GetService("VirtualUser")
-local antiAFKConnection
-
-local function setupAntiAFK()
-    if antiAFKConnection then
-        antiAFKConnection:Disconnect()
-    end
-    
-    antiAFKConnection = player.Idled:Connect(function()
-        VirtualUser:CaptureController()
-        VirtualUser:ClickButton2(Vector2.new())
-        print("Anti-AFK: Prevented idle kick")
-    end)
-    
-    print("Anti-AFK system enabled")
-end
-
-setupAntiAFK()
-
 local AutoFarm = window:AddTab("Auto Farm")
+
+local antiAFKEnabled = true
+AutoFarm:AddSwitch("Anti-AFK System", function(bool)
+    antiAFKEnabled = bool
+    
+    if bool then
+        setupAntiAFK()
+    else
+        if antiAFKConnection then
+            antiAFKConnection:Disconnect()
+            antiAFKConnection = nil
+            print("Anti-AFK system disabled")
+        end
+    end
+end, true)
 
 AutoFarm:AddTextBox("Objetivo de rebirth", function(text)
     local newValue = tonumber(text)
