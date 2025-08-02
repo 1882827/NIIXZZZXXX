@@ -27,7 +27,7 @@ AutoFarm:AddTextBox("Objetivo de Rebirth", function(text)
     local newValue = tonumber(text)
     if newValue and newValue > 0 then
         targetRebirthValue = newValue
-        updateStats() -- Call the stats update function
+        updateStats()
         
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Objetivo Actualizado",
@@ -75,7 +75,7 @@ local targetSwitch = AutoFarm:AddSwitch("Farmar ate o objetivo de rebirth", func
             end
         end)
     end
-end, "Renacimiento automÃƒÂ¡tico hasta alcanzar el objetivo")
+end, "Renacimiento automatico hasta alcanzar el objetivo")
 
 infiniteSwitch = AutoFarm:AddSwitch("Farmar rebirth infinitamente", function(bool)
     _G.infiniteRebirthActive = bool
@@ -104,7 +104,7 @@ local sizeSwitch = AutoFarm:AddSwitch("Tamanho 1", function(bool)
             end
         end)
     end
-end, "Establece el tamaÃƒÂ±o del personaje a 1 continuamente")
+end, "Establece el tamanho del personaje a 1 continuamente")
 
 local teleportSwitch = AutoFarm:AddSwitch("Teleporte pro Rei", function(bool)
     _G.teleportActive = bool
@@ -118,32 +118,32 @@ local teleportSwitch = AutoFarm:AddSwitch("Teleporte pro Rei", function(bool)
             end
         end)
     end
-end, "Teletransporte continuo al Rey MÃƒÂºsculo")
+end, "Teletransporte continuo al Rey Musculo")
 
-local repToggle = false
-
-AutoFarm:AddSwitch("Farmar com o peso", function(state)
-    repToggle = state
-    while repToggle do
-        local args = { "rep" }
-        game:GetService("Players").LocalPlayer:WaitForChild("muscleEvent"):FireServer(unpack(args))
-        task.wait(0.2)
+AutoFarm:AddSwitch("Farmar com o peso", function(Value)
+    _G.AutoWeight = Value
+    
+    if Value then
+        local weightTool = game.Players.LocalPlayer.Backpack:FindFirstChild("Weight")
+        if weightTool then
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(weightTool)
+        end
+    else
+        local character = game.Players.LocalPlayer.Character
+        local equipped = character:FindFirstChild("Weight")
+        if equipped then
+            equipped.Parent = game.Players.LocalPlayer.Backpack
+        end
     end
-end)
-
-local weightOn = false
-AutoFarm:AddSwitch("Equipar Peso Automaticamente", function(bool)
-    weightOn = bool
+    
     task.spawn(function()
-        while weightOn do
-            local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("Weight")
-            if tool then
-                tool.Parent = game.Players.LocalPlayer.Character
-            end
+        while _G.AutoWeight do
+            if not _G.AutoWeight then break end
+            game:GetService("Players").LocalPlayer.muscleEvent:FireServer("rep")
             task.wait(0.1)
         end
     end)
-end)
+end, "Levanta o peso automaticamente")
 
 local autoEatEnabled = false
 
