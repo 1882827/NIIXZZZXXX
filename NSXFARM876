@@ -1,5 +1,24 @@
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/memejames/elerium-v2-ui-library/main/Library", true))()
 
+local VirtualUser = game:GetService("VirtualUser")
+local antiAFKConnection
+
+local function setupAntiAFK()
+    if antiAFKConnection then
+        antiAFKConnection:Disconnect()
+    end
+    
+    antiAFKConnection = player.Idled:Connect(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+        print("Anti-AFK: Prevented idle kick")
+    end)
+    
+    print("Anti-AFK system enabled")
+end
+
+setupAntiAFK()
+
 local window = library:AddWindow("Nii Farm", {
     main_color = Color3.fromRGB(202, 151, 255, 0.51),
     min_size = Vector2.new(740, 500),
@@ -8,22 +27,7 @@ local window = library:AddWindow("Nii Farm", {
 
 local AutoFarm = window:AddTab("Auto Farm")
 
-local antiAFKEnabled = true
-AutoFarm:AddSwitch("Anti AFK", function(bool)
-    antiAFKEnabled = bool
-    
-    if bool then
-        setupAntiAFK()
-    else
-        if antiAFKConnection then
-            antiAFKConnection:Disconnect()
-            antiAFKConnection = nil
-            print("Anti-AFK system disabled")
-        end
-    end
-end, true)
-
-AutoFarm:AddTextBox("Objetivo de Rebirth", function(text)
+AutoFarm:AddTextBox("Objetivo de rebirth", function(text)
     local newValue = tonumber(text)
     if newValue and newValue > 0 then
         targetRebirthValue = newValue
@@ -36,8 +40,8 @@ AutoFarm:AddTextBox("Objetivo de Rebirth", function(text)
         })
     else
         game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "Entrada InvÃƒÂ¡lida",
-            Text = "Por favor ingresa un nÃƒÂºmero vÃƒÂ¡lido mayor que 0",
+            Title = "Entrada InvÃƒÆ’Ã‚Â¡lida",
+            Text = "Por favor ingresa un nÃƒÆ’Ã‚Âºmero vÃƒÆ’Ã‚Â¡lido mayor que 0",
             Duration = 0
         })
     end
@@ -45,7 +49,7 @@ end)
 
 local infiniteSwitch
 
-local targetSwitch = AutoFarm:AddSwitch("Farmar ate o objetivo de rebirth", function(bool)
+AutoFarm:AddSwitch("Farmar rebirth ate o objetivo", function(bool)
     _G.targetRebirthActive = bool
     
     if bool then
@@ -63,7 +67,7 @@ local targetSwitch = AutoFarm:AddSwitch("Farmar ate o objetivo de rebirth", func
                     _G.targetRebirthActive = false
                     
                     game:GetService("StarterGui"):SetCore("SendNotification", {
-                        Title = "Ã‚Â¡Objetivo Alcanzado!",
+                        Title = "Ãƒâ€šÃ‚Â¡Objetivo Alcanzado!",
                         Text = "Has alcanzado " .. tostring(targetRebirthValue) .. " renacimientos",
                         Duration = 5
                     })
@@ -77,7 +81,7 @@ local targetSwitch = AutoFarm:AddSwitch("Farmar ate o objetivo de rebirth", func
     end
 end, "Renacimiento automatico hasta alcanzar el objetivo")
 
-infiniteSwitch = AutoFarm:AddSwitch("Farmar rebirth infinitamente", function(bool)
+AutoFarm:AddSwitch("Farmar Rebirth (Infinitamente)", function(bool)
     _G.infiniteRebirthActive = bool
     
     if bool then
@@ -94,7 +98,7 @@ infiniteSwitch = AutoFarm:AddSwitch("Farmar rebirth infinitamente", function(boo
     end
 end, "Renacimiento continuo sin parar")
 
-local sizeSwitch = AutoFarm:AddSwitch("Tamanho 1", function(bool)
+AutoFarm:AddSwitch("Tamanho 1", function(bool)
     _G.autoSizeActive = bool
     
     if bool then
@@ -106,7 +110,7 @@ local sizeSwitch = AutoFarm:AddSwitch("Tamanho 1", function(bool)
     end
 end, "Establece el tamanho del personaje a 1 continuamente")
 
-local teleportSwitch = AutoFarm:AddSwitch("Teleporte pro Rei", function(bool)
+AutoFarm:AddSwitch("Teletransporte pro Rei", function(bool)
     _G.teleportActive = bool
     
     if bool then
@@ -144,6 +148,7 @@ AutoFarm:AddSwitch("Farmar com o peso", function(Value)
         end
     end)
 end, "Levanta o peso automaticamente")
+
 
 local autoEatEnabled = false
 
