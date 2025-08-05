@@ -94,7 +94,7 @@ AutoFarm:AddSwitch("Farmar Rebirth (Infinitamente)", function(bool)
     end
 end, "Renacimiento continuo sin parar")
 
-local switch = AutoFarm:AddSwitch("Lock Position", function(Value)
+local switch = AutoFarm:AddSwitch("Travar Personagem", function(Value)
     if Value then
         
         local currentPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
@@ -191,6 +191,25 @@ task.spawn(function()
     end
 end)
 
-AutoFarm:AddSwitch("Auto Eat Egg", function(state)
+AutoFarm:AddSwitch("Comer Ovo Automaticamente", function(state)
     autoEatEnabled = state
+end)
+
+AutoFarm:AddSwitch("Girar Roleta Automaticamente", function(Value)
+    _G.autoFortuneWheelActive = Value
+    if Value then
+        local function openFortuneWheel()
+            while _G.autoFortuneWheelActive do
+                local args = {
+                    [1] = "openFortuneWheel",
+                    [2] = game:GetService("ReplicatedStorage"):WaitForChild("fortuneWheelChances"):WaitForChild("Fortune Wheel")
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openFortuneWheelRemote"):InvokeServer(unpack(args))
+                wait(0)
+            end
+        end
+        coroutine.wrap(openFortuneWheel)()
+    else
+        _G.autoFortuneWheelActive = false
+    end
 end)
